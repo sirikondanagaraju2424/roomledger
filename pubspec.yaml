@@ -1,0 +1,34 @@
+name: roomledger
+description: "RoomLedger – simple accommodation listing demo (frontend only)."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # UI + common
+  cupertino_icons: ^1.0.8
+
+  # For picking photos in the Post screen (gallery/camera)
+  image_picker: ^1.0.7
+
+  # Optional: handy if you later call a REST API (safe to keep even if unused now)
+  http: ^1.2.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  # ASSETS: put your images here:
+  # lib/assets/images/welcome.jpg, lib/assets/images/logo.png, etc.
+  assets:
+    - assets/images/
