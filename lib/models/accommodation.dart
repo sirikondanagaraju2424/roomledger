@@ -1,44 +1,57 @@
-// Simple model used across screens + API
+// lib/models/accommodation.dart
 class Accommodation {
-  final String id;
-  final String title;       // e.g. "Cozy Studio in Downtown"
-  final String address;
-  final String bhk;         // "1 BHK" | "2 BHK" | ...
-  final bool available;     // true = Available, false = Need
-  final int? pricePerMonth; // optional
-  final String description; // optional
-  final List<String> photoUrls;
+  final String? id;
+  final String? title;
+  final String? address;
+  final int? bhk;
+  final String? type; // 'AVAILABLE' | 'NEEDED'
+  final String? price; // keep as string to match backend
+  final String? userName;
+  final String? description;
+  final List<String> amenities;
 
   Accommodation({
-    required this.id,
-    required this.title,
-    required this.address,
-    required this.bhk,
-    required this.available,
-    this.pricePerMonth,
-    this.description = '',
-    this.photoUrls = const [],
+    this.id,
+    this.title,
+    this.address,
+    this.bhk,
+    this.type,
+    this.price,
+    this.userName,
+    this.description,
+    this.amenities = const [],
   });
 
-  factory Accommodation.fromJson(Map<String, dynamic> j) => Accommodation(
-        id: j['id'] as String,
-        title: j['title'] as String,
-        address: j['address'] as String,
-        bhk: j['bhk'] as String,
-        available: j['available'] as bool,
-        pricePerMonth: j['pricePerMonth'] == null ? null : (j['pricePerMonth'] as num).toInt(),
-        description: (j['description'] ?? '') as String,
-        photoUrls: (j['photoUrls'] as List?)?.cast<String>() ?? const [],
-      );
+  factory Accommodation.fromJson(Map<String, dynamic> j) {
+    List<String> am = [];
+    final rawAm = j['amenities'];
+    if (rawAm is List) {
+      am = rawAm.whereType<String>().toList();
+    } else if (rawAm is String) {
+      am = rawAm.split(',').map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
+    }
+    return Accommodation(
+      id: j['id'] ?? j['PK'],
+      title: j['title'],
+      address: j['address'],
+      bhk: (j['bhk'] is int) ? j['bhk'] : int.tryParse('${j['bhk']}'),
+      type: (j['type'] as String?)?.toUpperCase(),
+      price: j['price']?.toString(),
+      userName: j['userName'],
+      description: j['description'],
+      amenities: am,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'title': title,
         'address': address,
         'bhk': bhk,
-        'available': available,
-        'pricePerMonth': pricePerMonth,
+        'type': type,
+        'price': price,
+        'userName': userName,
         'description': description,
-        'photoUrls': photoUrls,
+        'amenities': amenities,
       };
 }

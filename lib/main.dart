@@ -1,7 +1,11 @@
+// lib/main.dart
 import 'package:flutter/material.dart';
 import 'screens/welcome_screen.dart';
+import 'router/app_router.dart';
+import 'package:go_router/go_router.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const RoomLedgerApp());
 }
 
@@ -10,23 +14,15 @@ class RoomLedgerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const primary = Color(0xFF1E3A5F); // dark navy (matches your mock)
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
+    return MaterialApp.router(
       title: 'RoomLedger',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: primary,
-        colorScheme: ColorScheme.fromSeed(seedColor: primary).copyWith(primary: primary),
-        scaffoldBackgroundColor: const Color(0xFFF5F7FB),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: primary,
-          foregroundColor: Colors.white,
-          centerTitle: true,
-          elevation: 0,
-        ),
+        colorSchemeSeed: const Color(0xFF2962FF),
         useMaterial3: true,
+        scaffoldBackgroundColor: const Color(0xFFF6F7FB),
       ),
-      home: const WelcomeScreen(),
+      routerConfig: appRouter,
     );
   }
 }
